@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	pb "github.com/redhotpenguin/nanotron/span"
+	pb "github.com/redhotpenguin/nanotron/otel"
 	"io/ioutil"
 )
 
