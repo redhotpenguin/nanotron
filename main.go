@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	pb "github.com/redhotpenguin/nanotron/otel"
+	pb "github.com/open-telemetry/opentelemetry-proto/gen/go/common/v1"
 	"io/ioutil"
 )
 
