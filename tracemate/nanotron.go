@@ -2,9 +2,9 @@ package tracemate
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/golang/protobuf/proto"
 	//	v11 "github.com/open-telemetry/opentelemetry-proto/gen/go/common/v1"
+	"fmt"
 	ott "github.com/open-telemetry/opentelemetry-proto/gen/go/trace/v1"
 	"time"
 )
@@ -38,7 +38,6 @@ func JsonToProto(ct []byte) *ott.Span {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("json is ", trace)
 
 	var oSpan ott.Span
 
