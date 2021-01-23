@@ -2,9 +2,9 @@ package tracemate
 
 import (
 	"encoding/json"
-	"github.com/golang/protobuf/proto"
-	//	v11 "github.com/open-telemetry/opentelemetry-proto/gen/go/common/v1"
 	"fmt"
+	"github.com/golang/protobuf/proto"
+	otco "github.com/open-telemetry/opentelemetry-proto/gen/go/common/v1"
 	ott "github.com/open-telemetry/opentelemetry-proto/gen/go/trace/v1"
 	"time"
 )
@@ -26,7 +26,7 @@ type Trace struct {
 				Original string
 			}
 			Response struct {
-				Status int
+				Status int64 `json:"status_code"`
 			}
 		}
 	}
@@ -53,8 +53,16 @@ func JsonToProto(ct []byte) *ott.Span {
 	u, _ := time.ParseDuration(fmt.Sprintf("%dµs", trace.Span.Duration.US))
 	oSpan.EndTimeUnixNano = uint64(timeStart.Add(u).UnixNano())
 
-	// WIP
-	// oSpan.Attributes = []*v11.KeyValue{"status": trace.Span.Http.Response.Status}
+	// add attributes
+	oSpan.Attributes = []*otco.KeyValue{
+		{
+			Key:   "status",
+			Value: &otco.AnyValue{Value: &otco.AnyValue_IntValue{IntValue: trace.Span.Http.Response.Status}},
+		},
+		{
+			Key:   "original_url",
+			Value: &otco.AnyValue{Value: &otco.AnyValue_StringValue{StringValue: trace.Span.Http.Url.Original}}},
+	}
 
 	// serialize
 	proto.Marshal(&oSpan)
